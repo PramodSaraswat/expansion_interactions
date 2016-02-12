@@ -4,8 +4,7 @@ import numpy as np
 Dw = 0.07
 u = 1.19
 Ro = 3.5
-
-Dg = 1. #TODO: PUT IN THE ACTUAL VALUE
+Dg = 0.76
 
 class Strain(object):
     def __init__(self, name, growth_rate):
