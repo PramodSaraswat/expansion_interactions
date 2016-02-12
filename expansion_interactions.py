@@ -4,7 +4,10 @@ import numpy as np
 Dw = 0.07
 u = 1.19
 Ro = 3.5
-Dg = 0.76
+Dg = .76
+
+# Critical fitness that determines if things are noisy or not
+sc = Dw/Dg**2
 
 class Strain(object):
     def __init__(self, name, growth_rate):
@@ -20,6 +23,13 @@ class Strain_Interaction(object):
         g1 = strain_1.growth_rate
         g2 = strain_2.growth_rate
         self.s = 2.*(g1 - g2)/(g1 + g2)
+
+        if np.abs(self.s) < sc:
+            if self.s > 0:
+                print self.strain_1.name, self.strain_2.name, self.s, 'has a noisy selection coefficient!'
+        else:
+            if self.s > 0:
+                print self.strain_1.name, self.strain_2.name, self.s, 'has a deterministic selection coefficient!'
 
         self.vw = None
         if wave_type is 'deterministic':
@@ -45,6 +55,9 @@ class Derive_From_Weakest_Strain(object):
         self.wave_type = wave_type
 
         # Derive relative growth rates relative to the first strain
+
+        print 'sc is:' , sc
+
         g = np.zeros(self.num_strains, dtype=np.double)
         g[0] = 1
         for i in range(1, self.num_strains):
