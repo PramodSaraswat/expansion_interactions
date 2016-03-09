@@ -1,10 +1,15 @@
 import numpy as np
 
 # Set parameters...just using default from my experiments
-Dw = 0.07
-u = 1.19
-Ro = 3.5
-Dg = .76
+Dw = 0.092
+u = 1.15
+Ro_star = 3.50
+Ro = 1.84
+Dg = .56
+
+# For superdiffusive walk
+Db = 0.13
+b = 1.53
 
 # Critical fitness that determines if things are noisy or not
 sc = Dw/Dg**2
