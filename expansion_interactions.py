@@ -89,3 +89,24 @@ class Derive_From_Weakest_Strain(object):
                 if i != j: # Ignore interactions of one strain at a time
                     new_interaction = Strain_Interaction(self.strains[i], self.strains[j], self.wave_type)
                     self.strain_interactions.append(new_interaction)
+
+class Melanie_From_Weakest_Strain(object):
+
+    def __init__(self, strain_names, zeta_measured):
+        """Assumes that velocities are relative to strain 0!"""
+        self.strain_names = strain_names
+        self.zeta_measured = zeta_measured
+
+        self.num_strains = len(self.zeta_measured)
+
+        # Derive relative growth rates relative to the first strain
+        velocity_sq_ratios = np.zeros((self.num_strains, self.num_strains), dtype=np.double)
+        for i in range(self.num_strains):
+            for j in range(self.num_strains):
+                ui_sq_div_ref = 1 + self.zeta_measured[i]**2/4.
+                uj_sq_div_ref = 1 + self.zeta_measured[j]**2/4.
+                ui_sq_div_uj_sq = ui_sq_div_ref/uj_sq_div_ref
+                velocity_sq_ratios[i, j] = ui_sq_div_uj_sq
+
+        vw_div_u = np.sqrt(velocity_sq_ratios-1)
+
